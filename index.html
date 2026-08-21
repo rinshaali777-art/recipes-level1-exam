@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+            <!----- Header----->
+        <header class="bg-warning py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">RECIPES</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">For Better Taste</p>
+                </div>
+            </div>
+        </header>
+
+        <!------- Section------>
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="output">
+
+                     
+                        <!-- <div class="col mb-5" > 
+                            <div class="card h-100"> 
+                                <img class="card-img-top" src="./images/OIP.web" alt="..." />
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bolder">recipes</h5>
+                                    </div>
+                                </div>
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto " href="#">Read more</a></div>
+                                </div>
+                            </div>
+                        
+                        </div>  -->
+                    </div>
+            </div>
+        </section>
+</body>
+<script>
+    let output = document.getElementById('output');
+
+    fetch("https://dummyjson.com/recipes")
+        .then(data => data.json())
+        .then(pro => {
+            let products = pro.recipes;
+            console.log(products);
+            products.forEach(recipe => {
+                output.innerHTML += `
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                           <img class="card-img-top"
+                                 src="${recipe.image}"
+                                 alt="${recipe.name}" />
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">
+                                        ${recipe.name}
+                                    </h5>
+                                    <p>
+                                        <i class="fa-solid fa-star" style="color: rgb(255, 212, 59);"></i> ${recipe.rating}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto" href="page.html?id=${recipe.id}">View Recipe</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                `;
+            });
+        })
+        .catch(error => {
+            console.log("Error:", error);
+        });
+    
+            
+   
+</script>
+</html>
