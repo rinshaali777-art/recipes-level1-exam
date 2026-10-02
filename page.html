@@ -1,104 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
-<body>
-    <div class="container mt-5">
-     <h1>RECIPES</h1>
-    <div id="out">
 
-    </div>
-    </div>
-</body>
-<script>
+    <title>Recipe Details</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        body {
+            background: #fffaf2;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Header */
+        .recipe-header {
+            background: linear-gradient(135deg, #ff9800, #ffb300);
+            padding: 35px 0;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .recipe-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .recipe-header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        /* Main container */
+        .recipe-container {
+            padding: 60px 0;
+        }
+
+        /* Main Card */
+        .recipe-main-card {
+            background: white;
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Recipe Image */
+        .recipe-image-container {
+            overflow: hidden;
+            border-radius: 20px;
+            height: 100%;
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .recipe-image:hover {
+            transform: scale(1.04);
+        }
+
+        /* Recipe title */
+        .recipe-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .rating {
+            display: inline-block;
+            background: #fff4d6;
+            color: #f39c12;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        /* Information boxes */
+        .info-box {
+            background: #fffaf2;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .info-box i {
+            color: #ff9800;
+            width: 25px;
+        }
+
+        .info-label {
+            font-weight: 700;
+            color: #444;
+        }
+
+        .info-value {
+            color: #666;
+        }
+
+        /* Section cards */
+        .detail-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        }
+
+        .detail-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ffb300;
+            padding-bottom: 12px;
+        }
+
+        /* Ingredients */
+        .ingredient-list {
+            padding: 0;
+            list-style: none;
+        }
+
+        .ingredient-list li {
+            background: #fffaf2;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: #555;
+        }
+
+        .ingredient-list li::before {
+            content: "✓";
+            color: #ff9800;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Instructions */
+        .instruction-list {
+            padding-left: 25px;
+        }
+
+        .instruction-list li {
+            margin-bottom: 15px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* Back button */
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #ff9800, #ffb300);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(255, 152, 0, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+
+            .recipe-main-card {
+                padding: 20px;
+            }
+
+            .recipe-image {
+                height: 300px;
+            }
+
+            .recipe-title {
+                font-size: 2rem;
+                margin-top: 25px;
+            }
+
+            .recipe-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="recipe-header">
+        <div class="container text-center">
+            <h1>
+                <i class="fa-solid fa-utensils me-2"></i>
+                RECIPES
+            </h1>
+            <p>Discover delicious food & better taste</p>
+        </div>
+    </header>
+
+
+    <!-- Recipe Details -->
+    <section class="recipe-container">
+
+        <div class="container">
+
+            <div id="out"></div>
+
+        </div>
+
+    </section>
+
+
+    <script>
 
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
+
         console.log("Recipe ID:", id);
+
         fetch(`https://dummyjson.com/recipes/${id}`)
             .then(response => response.json())
-            .then(recipe => {
-                document.getElementById("out").innerHTML = `
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img src="${recipe.image}"
-                                 class="img-fluid rounded"
-                                 alt="img">
-                        </div>
-                        <div class="col-md-6">
-                            <h1>${recipe.name}</h1>
-                            <p>
-                                <b>Cuisine:</b>
-                                ${recipe.cuisine}
-                            </p>
-                            <p>
-                                <b>Rating:</b>
-                                <i class="fa-solid fa-star" style="color: rgb(255, 212, 59);"></i> ${recipe.rating}
-                            </p>
-                            <p>
-                                <b>Difficulty:</b>
-                                ${recipe.difficulty}
-                            </p>
-                            <p>
-                                <b>Prep Time:</b>
-                                ${recipe.prepTimeMinutes} minutes
-                            </p>
-                            <p>
-                                <b>Cook Time:</b>
-                                ${recipe.cookTimeMinutes} minutes
-                            </p>
-                            <p>
-                                <b>Servings:</b>
-                                ${recipe.servings}
-                            </p>
-                         <p>
-                                <b>Calories Per Serving:</b>
-                                ${recipe.caloriesPerServing}
-                            </p> 
-                            <p>
-                                <b>Meal Type:</b>
-                                ${recipe.mealType}
-                            </p> 
-                           <p>
-                                <b>Tags:</b>
-                                ${recipe.tags}
-                            </p> 
-                            <p>
-                                <b>Review Count:</b>
-                                ${recipe.reviewCount}
-                            </p>  
 
-                            <hr>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 my-5">
-                                    <p>
-                                        <b>Ingredients:</b>
-                                        ${recipe.ingredients}
-                                    </p> 
+            .then(recipe => {
+
+                document.getElementById("out").innerHTML = `
+
+                    <!-- Main Recipe Card -->
+                    <div class="recipe-main-card">
+
+                        <div class="row g-5 align-items-center">
+
+                            <!-- Image -->
+                            <div class="col-lg-6">
+
+                                <div class="recipe-image-container">
+
+                                    <img
+                                        src="${recipe.image}"
+                                        class="recipe-image"
+                                        alt="${recipe.name}"
+                                    >
+
                                 </div>
-                                <div class="col-md-6">
-                                    <p>
-                                        <b>Instructions:</b>
-                                        ${recipe.instructions}
-                                    </p> 
-                                </div>
+
                             </div>
+
+
+                            <!-- Details -->
+                            <div class="col-lg-6">
+
+                                <h1 class="recipe-title">
+                                    ${recipe.name}
+                                </h1>
+
+
+                                <div class="rating">
+
+                                    <i class="fa-solid fa-star"></i>
+
+                                    ${recipe.rating}
+
+                                    <span class="text-muted">
+                                        (${recipe.reviewCount} reviews)
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-box">
+
+                                    <i class="fa-solid fa-earth-americas"></i>
+
+                                    <span class="info-label">
+                                        Cuisine:
+                                    </span>
+
+                                    <span class="info-value">
+                                        ${recipe.cuisine}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-box">
+
+                                    <i class="fa-solid fa-gauge-high"></i>
+
+                                    <span class="info-label">
+                                        Difficulty:
+                                    </span>
+
+                                    <span class="info-value">
+                                        ${recipe.difficulty}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-box">
+
+                                    <i class="fa-solid fa-clock"></i>
+
+                                    <span class="info-label">
+                                        Prep Time:
+                                    </span>
+
+                                    <span class="info-value">
+                                        ${recipe.prepTimeMinutes} minutes
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-box">
+
+                                    <i class="fa-solid fa-fire-burner"></i>
+
+                                    <span class="info-label">
+                                        Cook Time:
+                                    </span>
+
+                                    <span class="info-value">
+                                        ${recipe.cookTimeMinutes} minutes
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-box">
+
+                                    <i class="fa-solid fa-users"></i>
+
+                                    <span class="info-label">
+                                        Servings:
+                                    </span>
+
+                                    <span class="info-value">
+                                        ${recipe.servings}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-box">
+
+                                    <i class="fa-solid fa-fire"></i>
+
+                                    <span class="info-label">
+                                        Calories:
+                                    </span>
+
+                                    <span class="info-value">
+                                        ${recipe.caloriesPerServing} per serving
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-box">
+
+                                    <i class="fa-solid fa-bowl-food"></i>
+
+                                    <span class="info-label">
+                                        Meal Type:
+                                    </span>
+
+                                    <span class="info-value">
+                                        ${recipe.mealType}
+                                    </span>
+
+                                </div>
+
+
+                                <a href="index.html" class="back-btn">
+
+                                    <i class="fa-solid fa-arrow-left me-2"></i>
+
+                                    Back to Recipes
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Ingredients & Instructions -->
+
+                    <div class="row">
+
+                        <!-- Ingredients -->
+                        <div class="col-lg-6">
+
+                            <div class="detail-section">
+
+                                <h2 class="detail-title">
+
+                                    <i class="fa-solid fa-carrot me-2"
+                                       style="color:#ff9800;">
+                                    </i>
+
+                                    Ingredients
+
+                                </h2>
+
+                                <ul class="ingredient-list">
+
+                                    ${recipe.ingredients.map(item => `
+                                        <li>${item}</li>
+                                    `).join("")}
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Instructions -->
+                        <div class="col-lg-6">
+
+                            <div class="detail-section">
+
+                                <h2 class="detail-title">
+
+                                    <i class="fa-solid fa-list-check me-2"
+                                       style="color:#ff9800;">
+                                    </i>
+
+                                    Instructions
+
+                                </h2>
+
+                                <ol class="instruction-list">
+
+                                    ${recipe.instructions.map(item => `
+                                        <li>${item}</li>
+                                    `).join("")}
+
+                                </ol>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 `;
             })
+
+
             .catch(error => {
+
                 console.log(error);
-                document.getElementById("details").innerHTML = `
-                    <h2>Recipe not found</h2>
-                    <a href="index.html" class="btn btn-dark">
-                        Go to Home Page
-                    </a>
+
+                document.getElementById("out").innerHTML = `
+
+                    <div class="text-center p-5">
+
+                        <h2 class="mb-3">
+                            Recipe not found
+                        </h2>
+
+                        <p class="text-muted">
+                            Sorry, we couldn't find the recipe you're looking for.
+                        </p>
+
+                        <a href="index.html" class="back-btn">
+                            <i class="fa-solid fa-arrow-left me-2"></i>
+                            Go to Home Page
+                        </a>
+
+                    </div>
+
                 `;
+
             });
 
-</script>
+    </script>
+
+</body>
+
 </html>
